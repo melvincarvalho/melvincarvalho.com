@@ -569,6 +569,22 @@
         return { href: href, name: name }
       })
 
+      console.log('app', app)
+
+      var app = di.me
+        .filter(i => i['@id'] == '#me')[0]
+        ['https://w3id.org/user#app'].map(i => i['@id'])
+      app = app.map(i => {
+        let href = i
+        let name = 'L'
+        name = di.me.filter(i => i['@id'] == href)[0]
+        if (!name) return { href: href, name: href }
+        name = name['https://w3id.org/user#app']
+        if (!name) return { href: href, name: href }
+        name = name.map(i => i['@id'])
+        return { href: href, name: name }
+      })
+
       console.log('knows', knows)
 
       class App extends Component {
@@ -732,6 +748,20 @@
 
                 </ul>
               </span>
+
+              <h4>Apps</h4>
+              <ul>
+              ${app.map(
+                  i => html`
+                    <li>
+                      <a style="color: blue" rel="foaf:knows" target="_blank" href="${i.href}"
+                        >${i.href}</a
+                      >
+                    </li>
+                  `
+                )}
+              </ul>
+
             </div>
           `
         }
