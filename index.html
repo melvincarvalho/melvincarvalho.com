@@ -19,14 +19,20 @@
           "https://melvincarvalho.com/bookmarks/",
           "https://w3id.org/user#genesis": [
             {"@id": "gitmark:b4f850d3d8c49bea52b44b0e6023a873f2e89167b2abb7284a9d5de2327f86d3:0"}
-          ]
+          ],
+          "https://w3id.org/user#name": [
+            {"@value": "Bookmarks"}
+          ]          
         },
         {
           "@id":
           "https://melvincarvalho.com/leterboxd/",
           "https://w3id.org/user#genesis": [
             {"@id": "gitmark:c6a1405140efd1fcdd1a75f125de72a57783ad97150271174fcb3f8b768622e0:0"}
-          ]
+          ],
+          "https://w3id.org/user#name": [
+            {"@value": "Movies"}
+          ]          
         },
         {
           "@id": "http://bart.netage.nl/foaf#bvl",
@@ -589,9 +595,9 @@
         let name = 'L'
         name = di.me.filter(i => i['@id'] == href)[0]
         if (!name) return { href: href, name: href }
-        name = name['https://w3id.org/user#app']
+        name = name['https://w3id.org/user#name']
         if (!name) return { href: href, name: href }
-        name = name.map(i => i['@id'])
+        name = name.map(i => i['@value'])
         return { href: href, name: name }
       })
 
@@ -765,7 +771,7 @@
                   i => html`
                     <li>
                       <a style="color: blue" rel="foaf:knows" target="_blank" href="${i.href}"
-                        >${i.href}</a
+                        >${i.name}</a
                       >
                     </li>
                   `
