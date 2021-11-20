@@ -597,6 +597,14 @@
         return { href: href, name: name }
       })
 
+      var twitter = di.me
+        .filter(i => i['@id'] == '#me')[0]
+        ['http://w3id.org/user#twitter'][0]['@id']
+
+      var github = di.me
+      .filter(i => i['@id'] == '#me')[0]
+      ['http://w3id.org/user#github'][0]['@id']
+
       console.log('app', app)
 
       var app = di.me
@@ -791,6 +799,14 @@
               </ul>
 
             </div>
+
+            <hr/>
+            <footer>
+              © 2021 Melvin Carvalho |
+      <a style="color:blue" href="${twitter.toString()}">Twitter</a> | <a style="color:blue" href="${github.toString()}">Github</a>
+    </footer>
+
+
           `
         }
       }
@@ -802,7 +818,8 @@
       }
 
       main()
-    </script>
+
+      </script>
   </head>
 
   <body typeof="foaf:PersonalProfileDocument" about=""></body>
