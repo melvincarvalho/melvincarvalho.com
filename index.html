@@ -110,9 +110,9 @@
               "@id": "#me"
             }
           ],
-          "https://w3id.com/user#genesis": [
+          "https://w3id.org/user#genesis": [
             {
-              "@id": "gitmark:c06e4b12945a0c279900c9d80491177d45fcf2971893a60a19afcf5c9604fb161:1"
+              "@id": "gitmark:c06e4b12945a0c279900c9d80491177d45fcf2971893a60a19afcf5c9604fb16:1"
             }
           ]
         },
@@ -606,9 +606,9 @@
         .filter(i => i['@id'] == '#me')[0]
         ['http://w3id.org/user#twitter'][0]['@id']
 
-      var github = di.me
-      .filter(i => i['@id'] == '#me')[0]
-      ['http://w3id.org/user#github'][0]['@id']
+      var github = di.me.filter(i => i['@id'] == '#me')[0]['http://w3id.org/user#github'][0]['@id']
+
+      var genesis = di.me.filter(i => i['@id'] === '')[0]['https://w3id.org/user#genesis'][0]['@id']
 
       console.log('app', app)
 
@@ -804,7 +804,7 @@
             <hr/>
             <footer>
               © 2021 Melvin Carvalho |
-      <a style="color:blue" href="${twitter.toString()}">Twitter</a> | <a style="color:blue" href="${github.toString()}">Github</a>
+      <a style="color:blue" href="${twitter.toString()}">Twitter</a> | <a style="color:blue" href="${github.toString()}">Github</a> | Genesis | <i>${genesis.toString()}</i>
     </footer>
 
 
