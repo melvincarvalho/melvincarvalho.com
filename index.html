@@ -588,6 +588,14 @@
 
       var ids = ['data', 'week']
 
+      // FUNCTIONS
+      function getValue(s, p) {
+        var sub = di.me.filter(i => i['@id'] == s)
+        var obj = sub[0][p]
+        var ret = obj[0]['@id']
+        return ret
+      }
+      
       var knows = di.me
         .filter(i => i['@id'] == '#me')[0]
         ['http://xmlns.com/foaf/0.1/knows'].map(i => i['@id'])
@@ -602,13 +610,9 @@
         return { href: href, name: name }
       })
 
-      var twitter = di.me
-        .filter(i => i['@id'] == '#me')[0]
-        ['http://w3id.org/user#twitter'][0]['@id']
-
-      var github = di.me.filter(i => i['@id'] == '#me')[0]['http://w3id.org/user#github'][0]['@id']
-
-      var genesis = di.me.filter(i => i['@id'] === '')[0]['https://w3id.org/user#genesis'][0]['@id']
+      var twitter = getValue('#me', 'http://w3id.org/user#twitter')
+      var github = getValue('#me', 'http://w3id.org/user#github')
+      var genesis = getValue('', 'https://w3id.org/user#genesis')
 
       console.log('app', app)
 
