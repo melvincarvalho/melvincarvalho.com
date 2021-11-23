@@ -26,6 +26,16 @@
         },
         {
           "@id":
+          "http://chores.gitmark.me/",
+          "https://w3id.org/user#genesis": [
+            {"@id": "gitmark:48a5e0fbf0cf4e660d10d20544e67e003eb973bdb80589cc6560d1bd6c6f1cbb:1"}
+          ],
+          "https://w3id.org/user#name": [
+            {"@value": "Chores"}
+          ]          
+        },
+        {
+          "@id":
           "https://melvincarvalho.com/letterboxd/",
           "https://w3id.org/user#genesis": [
             {"@id": "gitmark:c6a1405140efd1fcdd1a75f125de72a57783ad97150271174fcb3f8b768622e0:0"}
@@ -239,6 +249,9 @@
             },
             {
               "@id": "https://melvincarvalho.com/bookmarks/"
+            },
+            {
+              "@id": "http://chores.gitmark.me/"
             },
             {
               "@id": "http://taskify.org/"
@@ -795,7 +808,7 @@
               ${app.map(
                   i => html`
                     <li>
-                      <a style="color: blue" rel="foaf:knows" target="_blank" href="${i.href}"
+                      <a style="color: blue" rel="user:app" target="_blank" href="${i.href}"
                         >${i.name}</a
                       >
                     </li>
