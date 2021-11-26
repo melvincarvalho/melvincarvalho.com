@@ -223,7 +223,7 @@
               "@value": "mailto:melvincarvalho@gmail.com"
             }
           ],
-          "http://w3id.org/user/blog": [
+          "http://w3id.org/user#blog": [
             {
               "@id": "https://dev.to/melvincarvalho"
             }
@@ -631,6 +631,7 @@
       })
 
       var twitter = getValue('#me', 'http://w3id.org/user#twitter')
+      var blog = getValue('#me', 'http://w3id.org/user#blog')
       var github = getValue('#me', 'http://w3id.org/user#github')
       var genesis = getValue('', 'https://w3id.org/user#genesis')
 
@@ -828,7 +829,8 @@
             <hr/>
             <footer>
               © 2021 Melvin Carvalho |
-      <a style="color:blue" href="${twitter.toString()}">Twitter</a> | <a style="color:blue" href="${github.toString()}">Github</a> | Genesis | <i><a style="color:blue" target="_blank" href="https://gitmark.info/${genesis.toString().split(':')[1]}">${genesis.toString()}</a></i>
+      <a style="color:blue" href="${twitter.toString()}">Twitter</a> |
+      <a style="color:blue" href="${blog.toString()}">Blog</a> | <a style="color:blue" href="${github.toString()}">Github</a> | Genesis | <i><a style="color:blue" target="_blank" href="https://gitmark.info/${genesis.toString().split(':')[1]}">${genesis.toString()}</a></i>
     </footer>
 
 
