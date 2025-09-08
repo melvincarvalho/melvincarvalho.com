@@ -750,53 +750,18 @@
           return html`
             <${Navbar} title="Melvin Carvalho" />
 
-            <div class="row">
-              <div class="col 1">
-                <${Circle}
-                  amount="${this.state.amount % 360}"
-                  hour="${this.state.hour}"
-                />
+            <div class="stats-container">
+              <div class="stats-row">
+                <span class="stat-badge info">
+                  Now ${Math.floor((this.state.amount % 360) / 30)}.${Math.round((this.state.amount % 30) / 5)}
+                </span>
+                <span class="stat-badge success">
+                  Day ${this.state.amount}
+                </span>
+                <span class="stat-badge success">
+                  Hour ${this.state.hour}
+                </span>
               </div>
-              <div class="col 11 vc w-100">
-                <svg height="140" width="480">
-                  ${this.state.week &&
-                  this.state.week[0].map((i, j) => Dot(i, j, 0))}
-                  ${this.state.week &&
-                  this.state.week[1].map((i, j) => Dot(i, j, 1))}
-                  ${this.state.week &&
-                  this.state.week[2].map((i, j) => Dot(i, j, 2))}
-                  ${this.state.week &&
-                  this.state.week[3].map((i, j) => Dot(i, j, 3))}
-                  ${this.state.week &&
-                  this.state.week[4].map((i, j) => Dot(i, j, 4))}
-                  ${this.state.week &&
-                  this.state.week[5].map((i, j) => Dot(i, j, 5))}
-                  ${this.state.week &&
-                  this.state.week[6].map((i, j) => Dot(i, j, 6))}
-                </svg>
-              </div>
-            </div>
-            <hr />
-            <div class="row ph2 mh2">
-              <input
-                type="button"
-                class="card pill btn bg-info white bold"
-                value=${'Now ' +
-                Math.floor((this.state.amount % 360) / 30) +
-                '.' +
-                Math.round((this.state.amount % 30) / 5)}
-              />
-              <input
-                type="button"
-                class="card pill btn white bold"
-                style="background-color: green; margin: 0px"
-                value=${'Day ' + this.state.amount}
-              />
-              <input
-                type="button"
-                class="card pill btn bg-success white bold"
-                value=${'Hour ' + this.state.hour}
-              />
             </div>
             <hr />
 
@@ -805,13 +770,12 @@
             <div about="#me" typeof="foaf:Person" class="content">
               <p>
                 Welcome to my home page. I am a mathematician and computer
-                scientist. I studied mathematics under Professor,
+                scientist. I studied mathematics under Professor
                 <a
-                  style="color: blue"
                   href="http://dbpedia.org/page/Stephen_Hawking"
                   >Stephen Hawking</a
-                >, at Gonville and Caius College, Cambridge, and am a life
-                member of the Cambridge Univerisity Computer Laboratory Ring.
+                > at Gonville and Caius College, Cambridge, and am a life
+                member of the Cambridge University Computer Laboratory Ring.
               </p>
 
               <span
@@ -833,10 +797,10 @@
                   i => html`
                     <li>
                       ${i.href.startsWith('did:nostr:') 
-                        ? html`<a style="color: blue" rel="foaf:knows" href="${i.href}"
+                        ? html`<a rel="foaf:knows" href="${i.href}"
                             >${i.name}</a
-                          > (<a style="color: blue" href="https://nostr.social/profile/${i.href.substring(10)}" target="_blank">nostr</a>)`
-                        : html`<a style="color: blue" rel="foaf:knows" href="${i.href}"
+                          > (<a href="https://nostr.social/profile/${i.href.substring(10)}" target="_blank">nostr</a>)`
+                        : html`<a rel="foaf:knows" href="${i.href}"
                             >${i.name}</a
                           >`
                       }
@@ -851,7 +815,6 @@
                   <li>
                     <a
                       rel="foaf:interest"
-                      style="color: blue"
                       href="https://melvincarvalho.com/tech/"
                       >Tech</a
                     >
@@ -859,7 +822,6 @@
                   <li>
                     <a
                       rel="foaf:interest"
-                      style="color: blue"
                       href="https://melvincarvalho.com/issues/"
                       >Issues</a
                     >
@@ -867,7 +829,6 @@
                   <li>
                     <a
                       rel="foaf:interest"
-                      style="color: blue"
                       href="https://melvincarvalho.com/webmaps/index.html"
                       >mm</a
                     >
@@ -881,7 +842,6 @@
                   i => html`
                     <li>
                       <a
-                        style="color: blue"
                         rel="user:app"
                         target="_blank"
                         href="${i.href}"
@@ -895,14 +855,13 @@
 
             <hr />
             <footer>
-              © 2021 Melvin Carvalho |
-              <a style="color:blue" href="${twitter.toString()}">Twitter</a> |
-              <a style="color:blue" href="${blog.toString()}">Blog</a> |
-              <a style="color:blue" href="${github.toString()}">Github</a> |
-              Genesis |
+              © 2024 Melvin Carvalho |
+              <a href="${twitter.toString()}">Twitter</a> |
+              <a href="${blog.toString()}">Blog</a> |
+              <a href="${github.toString()}">Github</a> |
+              Genesis:
               <i
                 ><a
-                  style="color:blue"
                   target="_blank"
                   href="https://gitmark.info/${genesis
                     .toString()
