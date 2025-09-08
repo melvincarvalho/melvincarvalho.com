@@ -129,11 +129,6 @@
               "@value": "Melvin Carvalho"
             }
           ],
-          "http://www.w3.org/2000/01/rdf-schema#seeAlso": [
-            {
-              "@id": "./seeAlso.json"
-            }
-          ],
           "@type": ["http://xmlns.com/foaf/0.1/PersonalProfileDocument"],
           "http://xmlns.com/foaf/0.1/primaryTopic": [
             {
@@ -255,7 +250,7 @@
           ],
           "http://w3id.org/user#nostr": [
             {
-              "@id": "nostr:pubkey:de7ecd1e2976a6adb2ffa5f4db81a7d812c8bb6698aa00dcf1e76adb55efd645"
+              "@id": "did:nostr:de7ecd1e2976a6adb2ffa5f4db81a7d812c8bb6698aa00dcf1e76adb55efd645"
             }
           ],
           "http://w3id.org/user#matrix": [
@@ -370,7 +365,10 @@
             },
             {
               "@id": "https://www.w3.org/People/Berners-Lee/card#i"
-            }
+            },
+	    {
+	      "@id": "did:nostr:202501d0e023e55eda42f177ef27b0475fccc46402bd8af4bf921171ee042da9"
+	    }
           ],
           "https://w3id.org/user#tipjar": [
             {
@@ -558,6 +556,14 @@
           "http://xmlns.com/foaf/0.1/name": [
             {
               "@value": "Christian Buggedei"
+            }
+          ]
+        },
+        {
+          "@id": "did:nostr:202501d0e023e55eda42f177ef27b0475fccc46402bd8af4bf921171ee042da9",
+          "http://xmlns.com/foaf/0.1/name": [
+            {
+              "@value": "FOAF Bot 2025"
             }
           ]
         },
@@ -819,16 +825,21 @@
               <h4>People</h4>
 
               <p>
-                Some of the people I know and had the pleasure to work with, so
+                Some of the agents I know and had the pleasure to work with, so
                 far:
               </p>
               <ul>
                 ${knows.map(
                   i => html`
                     <li>
-                      <a style="color: blue" rel="foaf:knows" href="${i.href}"
-                        >${i.name}</a
-                      >
+                      ${i.href.startsWith('did:nostr:') 
+                        ? html`<a style="color: blue" rel="foaf:knows" href="${i.href}"
+                            >${i.name}</a
+                          > (<a style="color: blue" href="https://nostr.social/profile/${i.href.substring(10)}" target="_blank">nostr</a>)`
+                        : html`<a style="color: blue" rel="foaf:knows" href="${i.href}"
+                            >${i.name}</a
+                          >`
+                      }
                     </li>
                   `
                 )}
