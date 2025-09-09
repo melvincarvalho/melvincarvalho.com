@@ -670,48 +670,73 @@
 
       // FUNCTIONS
       function getValue(s, p) {
+        if (!di || !di.me) return ''
         var sub = di.me.filter(i => i['@id'] == s)
+        if (!sub || !sub[0] || !sub[0][p]) return ''
         var obj = sub[0][p]
+        if (!obj || !obj[0] || !obj[0]['@id']) return ''
         var ret = obj[0]['@id']
         return ret
       }
 
-      var knows = di.me
-        .filter(i => i['@id'] == '#me')[0]
-        ['http://xmlns.com/foaf/0.1/knows'].map(i => i['@id'])
-      knows = knows.map(i => {
-        let href = i
-        let name = 'L'
-        name = di.me.filter(i => i['@id'] == href)[0]
-        if (!name) return { href: href, name: href }
-        name = name['http://xmlns.com/foaf/0.1/name']
-        if (!name) return { href: href, name: href }
-        name = name.map(i => i['@value'])
-        return { href: href, name: name }
-      })
+      // Initialize variables with defaults
+      var knows = []
+      var app = []
+      var twitter = ''
+      var blog = ''
+      var github = ''
+      var genesis = ''
 
-      var twitter = getValue('#me', 'http://w3id.org/user#twitter')
-      var blog = getValue('#me', 'http://w3id.org/user#blog')
-      var github = getValue('#me', 'http://w3id.org/user#github')
-      var genesis = getValue('', 'https://w3id.org/user#genesis')
+      // Wait for di.me to be available
+      function initializeData() {
+        if (!di || !di.me) {
+          console.log('di.me not ready yet, retrying...')
+          setTimeout(initializeData, 100)
+          return
+        }
 
-      console.log('app', app)
+        // Process knows relationships
+        var meNode = di.me.filter(i => i['@id'] == '#me')[0]
+        if (meNode && meNode['http://xmlns.com/foaf/0.1/knows']) {
+          knows = meNode['http://xmlns.com/foaf/0.1/knows'].map(i => i['@id'])
+          knows = knows.map(i => {
+            let href = i
+            let name = 'L'
+            name = di.me.filter(i => i['@id'] == href)[0]
+            if (!name) return { href: href, name: href }
+            name = name['http://xmlns.com/foaf/0.1/name']
+            if (!name) return { href: href, name: href }
+            name = name.map(i => i['@value'])
+            return { href: href, name: name }
+          })
+        }
 
-      var app = di.me
-        .filter(i => i['@id'] == '#me')[0]
-        ['https://w3id.org/user#app'].map(i => i['@id'])
-      app = app.map(i => {
-        let href = i
-        let name = 'L'
-        name = di.me.filter(i => i['@id'] == href)[0]
-        if (!name) return { href: href, name: href }
-        name = name['https://w3id.org/user#name']
-        if (!name) return { href: href, name: href }
-        name = name.map(i => i['@value'])
-        return { href: href, name: name }
-      })
+        // Process apps
+        if (meNode && meNode['https://w3id.org/user#app']) {
+          app = meNode['https://w3id.org/user#app'].map(i => i['@id'])
+          app = app.map(i => {
+            let href = i
+            let name = 'L'
+            name = di.me.filter(i => i['@id'] == href)[0]
+            if (!name) return { href: href, name: href }
+            name = name['https://w3id.org/user#name']
+            if (!name) return { href: href, name: href }
+            name = name.map(i => i['@value'])
+            return { href: href, name: name }
+          })
+        }
 
-      console.log('knows', knows)
+        // Get values
+        twitter = getValue('#me', 'http://w3id.org/user#twitter')
+        blog = getValue('#me', 'http://w3id.org/user#blog')
+        github = getValue('#me', 'http://w3id.org/user#github')
+        genesis = getValue('', 'https://w3id.org/user#genesis')
+
+        console.log('Data initialized:', { knows, app, twitter, blog, github, genesis })
+      }
+
+      // Start initialization
+      initializeData()
 
       class App extends Component {
         constructor(props) {
@@ -729,21 +754,33 @@
         }
 
         processMutation() {
+          // Check if di.week exists and is an array
           var week = new Array(7).fill(0).map(() => new Array(24).fill(0))
-          for (let i = 0; i < di.week.length / 3; i++) {
-            let el = {
-              hour: di.week[i * 3 + 1],
-              day: di.week[i * 3 + 2] - 1
+          if (di && di.week && Array.isArray(di.week)) {
+            for (let i = 0; i < di.week.length / 3; i++) {
+              let el = {
+                hour: di.week[i * 3 + 1],
+                day: di.week[i * 3 + 2] - 1
+              }
+              // console.log(el)
+              if (el.day >= 0 && el.day < 7 && el.hour >= 0 && el.hour < 24) {
+                week[el.day][el.hour] = di.week[i * 3]
+              }
             }
-            // console.log(el)
-            week[el.day][el.hour] = di.week[i * 3]
+            console.log('week', week)
           }
-          console.log('week', week)
-          this.setState({
-            amount: di.data[0]['urn:query:day'][0]['@value'],
-            hour: di.data[0]['urn:query:hour'][0]['@value'],
-            week: week
-          })
+          
+          // Safely access di.data with fallbacks
+          let newState = { week: week }
+          if (di && di.data && di.data[0]) {
+            if (di.data[0]['urn:query:day'] && di.data[0]['urn:query:day'][0]) {
+              newState.amount = di.data[0]['urn:query:day'][0]['@value'] || 0
+            }
+            if (di.data[0]['urn:query:hour'] && di.data[0]['urn:query:hour'][0]) {
+              newState.hour = di.data[0]['urn:query:hour'][0]['@value'] || 0
+            }
+          }
+          this.setState(newState)
         }
 
         render() {
